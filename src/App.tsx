@@ -26,6 +26,8 @@ export default function App() {
   useEffect(() => {
     console.log('isDark changed:', isDark);
     const root = window.document.documentElement;
+    console.log('Root element before:', root.className);
+    
     if (isDark) {
       root.classList.add('dark');
       localStorage.setItem('theme', 'dark');
@@ -37,6 +39,10 @@ export default function App() {
       document.body.style.backgroundColor = '#ffffff';
       document.body.style.color = '#1e293b';
     }
+    
+    console.log('Root element after:', root.className);
+    console.log('Body bg:', document.body.style.backgroundColor);
+    console.log('Body color:', document.body.style.color);
   }, [isDark]);
 
   const loadData = useCallback(async () => {
