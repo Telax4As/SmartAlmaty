@@ -3,29 +3,28 @@
 @layer base {
   :root {
     --color-brand: #6366f1;
+    color-scheme: light;
+  }
+
+  html.dark {
+    color-scheme: dark;
+  }
+
+  body {
+    @apply bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-50 transition-colors duration-300;
   }
 }
 
+/* Optional CSS variables for custom properties */
 :root {
   --site-bg: #ffffff;
   --site-text: #1e293b;
-  --card-bg: #ffffff;
 }
 
 .dark {
   --site-bg: #0f172a;
   --site-text: #f1f5f9;
-  --card-bg: #1e293b;
 }
-
-body {
-  margin: 0;
-  background-color: var(--site-bg);
-  color: var(--site-text);
-  transition: background-color 0.3s ease, color 0.3s ease;
-}
-
-
 
 /* СИЛОВОЙ ФИКС ГРАФИКОВ */
 .tremor-AreaChart-line {
@@ -39,7 +38,6 @@ body {
 }
 
 /* ФИКС СПИННЕРА В КНОПКЕ */
-/* Мы делаем его более специфичным, чтобы не ломать саму структуру кнопки */
 .tremor-Button-root[data-loading="true"] svg.animate-spin {
   display: inline-block !important;
   width: 1.25rem !important;
@@ -49,20 +47,18 @@ body {
 }
 
 /* СИЛОВОЙ ФИКС ДЛЯ КАРТЫ (Leaflet) */
-/* Если карта перекрывает клики, мы принудительно опускаем её слой */
 .leaflet-container {
   z-index: 1 !important;
   cursor: default !important;
 }
 
 /* ФИКС КЛИКАБЕЛЬНОСТИ */
-/* Гарантируем, что элементы с onClick всегда имеют приоритет клика */
 [onClick] {
   cursor: pointer !important;
   pointer-events: auto !important;
 }
 
-/* Убираем возможные прозрачные слои, которые мешают навигации */
+/* Убираем возможные прозрачные слои */
 .recharts-wrapper {
-  pointer-events: none !important; /* Чтобы клик по графику "пролетал" в карточку */
+  pointer-events: none !important;
 }
