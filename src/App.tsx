@@ -27,8 +27,12 @@ export default function App() {
     const root = document.documentElement;
     if (isDark) {
       root.classList.add('dark');
+      root.style.backgroundColor = '#0f172a';
+      root.style.color = '#f1f5f9';
     } else {
       root.classList.remove('dark');
+      root.style.backgroundColor = '#ffffff';
+      root.style.color = '#1e293b';
     }
     localStorage.setItem('theme', isDark ? 'dark' : 'light');
   }, [isDark]);

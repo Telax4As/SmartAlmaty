@@ -3,6 +3,19 @@
 @layer base {
   :root {
     --color-brand: #6366f1;
+    --bg-primary: #ffffff;
+    --bg-secondary: #f8fafc;
+    --text-primary: #1e293b;
+    --text-secondary: #64748b;
+    --border-color: #e2e8f0;
+  }
+
+  html.dark {
+    --bg-primary: #0f172a;
+    --bg-secondary: #1e293b;
+    --text-primary: #f1f5f9;
+    --text-secondary: #cbd5e1;
+    --border-color: #334155;
   }
 
   html {
@@ -12,6 +25,9 @@
   body {
     margin: 0;
     padding: 0;
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    transition: background-color 300ms ease, color 300ms ease;
   }
 }
 
