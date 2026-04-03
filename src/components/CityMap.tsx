@@ -26,7 +26,7 @@ export function CityMap({ metrics }: { metrics: CityMetric[] }) {
 
     // Initialize map only once
     if (!mapRef.current) {
-      mapRef.current = L.map(container).setView(ALMATY_CENTER, 12);
+      mapRef.current = L.map(container, { scrollWheelZoom: false }).setView(ALMATY_CENTER, 12);
       L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
         maxZoom: 19,

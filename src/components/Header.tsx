@@ -80,7 +80,7 @@ export default function Header({ isDark, setIsDark }: HeaderProps) {
   };
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-[100] backdrop-blur-md bg-white dark:bg-slate-900/90 border-b border-slate-200 dark:border-slate-800 px-6 py-4 transition-all duration-300">
+    <header className="fixed top-0 left-0 right-0 z-[100] backdrop-blur-md bg-white/95 dark:bg-slate-900/90 border-b border-slate-200 dark:border-slate-800 px-6 py-4 transition-all duration-300 shadow-sm dark:shadow-md">
       <div className="max-w-7xl mx-auto flex justify-between items-center">
         
         {/* Логотип */}
