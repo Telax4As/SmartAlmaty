@@ -25,12 +25,7 @@ body {
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-/* Dark mode variant for Tailwind */
-@layer utilities {
-  .dark {
-    color-scheme: dark;
-  }
-}
+
 
 /* СИЛОВОЙ ФИКС ГРАФИКОВ */
 .tremor-AreaChart-line {
