@@ -1,7 +1,7 @@
 import { useParams, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { supabase } from '../lib/supabase';
-import { AreaChart, Card, Title, Button } from '@tremor/react';
+import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { motion } from 'framer-motion';
 import { Phone, ArrowLeft } from 'lucide-react';
 
@@ -23,25 +23,52 @@ export default function Details() {
   ];
 
   return (
-    <div className="max-w-7xl mx-auto p-6">
-      <Button variant="light" icon={ArrowLeft} onClick={() => navigate('/')} className="mb-6">Назад</Button>
+    <div className="max-w-7xl mx-auto p-6 pt-24">
+      <button 
+        onClick={() => navigate('/')} 
+        className="mb-6 inline-flex items-center gap-2 px-4 py-2 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 rounded-lg transition-colors text-slate-700 dark:text-slate-300 font-semibold"
+      >
+        <ArrowLeft size={20} />
+        Назад
+      </button>
       
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
-        <Card>
-          <Title>{metric.title}: История изменений</Title>
-          <AreaChart className="h-72 mt-4" data={chartData} index="month" categories={["value"]} colors={["indigo"]} />
-        </Card>
+        <div className="rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-6">
+          <h2 className="text-2xl font-bold text-slate-800 dark:text-white mb-4">
+            {metric.title}: История изменений
+          </h2>
+          <div className="h-72">
+            <ResponsiveContainer width="100%" height="100%">
+              <AreaChart data={chartData}>
+                <defs>
+                  <linearGradient id="colorValue" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="5%" stopColor="#6366f1" stopOpacity={0.8}/>
+                    <stop offset="95%" stopColor="#6366f1" stopOpacity={0}/>
+                  </linearGradient>
+                </defs>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="month" stroke="#94a3b8" />
+                <YAxis stroke="#94a3b8" />
+                <Tooltip />
+                <Area type="monotone" dataKey="value" stroke="#6366f1" fillOpacity={1} fill="url(#colorValue)" />
+              </AreaChart>
+            </ResponsiveContainer>
+          </div>
+        </div>
 
         <motion.div initial={{ x: 20, opacity: 0 }} animate={{ x: 0, opacity: 1 }}>
-          <Card className="h-full bg-slate-900 text-white border-none">
-            <Title className="text-white">Аналитика ИИ (Gemini 3 Flash)</Title>
-            <div className="mt-6 space-y-6 whitespace-pre-line leading-relaxed opacity-90">
+          <div className="rounded-lg border border-slate-700 bg-slate-900 text-white p-6 h-full">
+            <h2 className="text-2xl font-bold text-white mb-6">Аналитика ИИ (Gemini 3 Flash)</h2>
+            <div className="space-y-6 whitespace-pre-line leading-relaxed opacity-90 mb-10">
               {metric.ai_report}
             </div>
-            <div className="mt-10 pt-6 border-t border-slate-700">
-              <Button color="red" icon={Phone} className="w-full">Связаться с дежурной службой</Button>
+            <div className="pt-6 border-t border-slate-700">
+              <button className="w-full inline-flex items-center justify-center gap-2 px-4 py-3 bg-red-600 hover:bg-red-700 text-white font-bold rounded-lg transition-colors">
+                <Phone size={20} />
+                Связаться с дежурной службой
+              </button>
             </div>
-          </Card>
+          </div>
         </motion.div>
       </div>
     </div>

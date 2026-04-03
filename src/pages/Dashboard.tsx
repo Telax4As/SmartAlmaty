@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { Title, Card, Metric, Text, Badge, AreaChart, Button } from '@tremor/react';
+import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { RefreshCw, Car, Cloud, Droplets, Shield, Construction, Users } from 'lucide-react';
 import { CityMap } from '../components/CityMap';
 import { motion } from 'framer-motion';
@@ -73,22 +73,30 @@ export default function Dashboard({
       
       <section id="hero-section" className="flex flex-col md:flex-row justify-between items-center mb-10 p-6 md:p-8 rounded-2xl shadow-sm border bg-white border-slate-200 dark:bg-slate-800 dark:border-slate-700">
         <div className="mb-6 md:mb-0 text-center md:text-left">
-          <Title className="text-3xl md:text-4xl font-black text-slate-800 dark:text-white">
+          <h1 className="text-3xl md:text-4xl font-black text-slate-800 dark:text-white">
             Алматы: {avgHealth}%
-          </Title>
-          <Text className="text-base md:text-lg text-slate-500 dark:text-slate-400">
+          </h1>
+          <p className="text-base md:text-lg text-slate-500 dark:text-slate-400 mt-2">
             Общий индекс здоровья города
-          </Text>
+          </p>
         </div>
-        <Button 
-          size="lg" 
-          icon={RefreshCw} 
-          loading={isLoading} 
+        <button 
           onClick={handleSync}
-          className="!inline-flex !flex-row !items-center !justify-center gap-3 bg-indigo-600 hover:bg-indigo-700 border-none px-8 py-4 rounded-xl shadow-md transition-all active:scale-95"
+          disabled={isLoading}
+          className="inline-flex flex-row items-center justify-center gap-3 bg-indigo-600 hover:bg-indigo-700 disabled:opacity-50 border-none px-8 py-4 rounded-xl shadow-md transition-all active:scale-95 text-white font-bold"
         >
-          Обновить данные
-        </Button>
+          {isLoading ? (
+            <>
+              <div className="animate-spin rounded-full h-5 w-5 border-t-2 border-b-2 border-white"></div>
+              Обновляем...
+            </>
+          ) : (
+            <>
+              <RefreshCw size={20} />
+              Обновить данные
+            </>
+          )}
+        </button>
       </section>
 
       <section id="city-map-section" className="h-[400px] md:h-[500px] mb-10 rounded-2xl overflow-hidden shadow-lg border-4 border-white dark:border-slate-800 relative z-0">
@@ -102,6 +110,18 @@ export default function Dashboard({
             item.status === 'danger' ? 'red' : 
             item.status === 'warning' ? 'orange' : 
             'emerald';
+          const bgColor = 
+            item.status === 'danger' ? 'bg-red-50 dark:bg-red-950/20' :
+            item.status === 'warning' ? 'bg-orange-50 dark:bg-orange-950/20' :
+            'bg-emerald-50 dark:bg-emerald-950/20';
+          const textColor = 
+            item.status === 'danger' ? 'text-red-600 dark:text-red-400' :
+            item.status === 'warning' ? 'text-orange-600 dark:text-orange-400' :
+            'text-emerald-600 dark:text-emerald-400'; 
+          const chartColor = 
+            item.status === 'danger' ? '#dc2626' :
+            item.status === 'warning' ? '#ea580c' :
+            '#10b981';
 
           return (
             <motion.div 
@@ -110,48 +130,48 @@ export default function Dashboard({
               animate={{ opacity: 1, y: 0 }} 
               whileHover={{ y: -5 }}
             >
-              <Card 
-                className="rounded-[10px] cursor-pointer p-5 transition-all duration-300 border-none ring-1 bg-white ring-slate-200 dark:bg-slate-800 dark:ring-slate-700 hover:ring-indigo-500 dark:hover:ring-indigo-400" 
+              <div 
+                className="rounded-lg cursor-pointer p-5 transition-all duration-300 border ring-1 bg-white ring-slate-200 dark:bg-slate-800 dark:ring-slate-700 hover:ring-indigo-500 dark:hover:ring-indigo-400"
                 onClick={() => navigate(`/details/${item.id}`)}
               >
-                <div className="flex justify-between items-start">
+                <div className="flex justify-between items-start mb-4">
                   <IconComponent size={22} className="text-indigo-600 dark:text-indigo-400" />
-                  <Badge 
-                    color={tremorColor} 
-                    className="p-2 text-xs font-bold uppercase rounded-[5px]"
-                  >
+                  <span className={`px-3 py-1 text-xs font-bold uppercase rounded ${bgColor} ${textColor}`}>
                     {item.status.toUpperCase()}
-                  </Badge>
+                  </span>
                 </div>
                 
-                <Text className="mt-4 text-[23px] font-[900] text-slate-500 dark:text-slate-300 truncate">
+                <h3 className="text-lg font-bold text-slate-500 dark:text-slate-300 truncate mb-2">
                   {item.title}
-                </Text>
-                <Metric className="text-slate-900 dark:text-white text-2xl font-bold">
+                </h3>
+                <p className="text-slate-900 dark:text-white text-2xl font-bold mb-4">
                   {item.value} {item.unit}
-                </Metric>
+                </p>
                 
-                <div className="h-28 mt-3 -mx-3">
-                  <AreaChart
-                    data={getChartData(item.value)}
-                    index="time"
-                    categories={["val"]}
-                    colors={[tremorColor]}
-                    showTooltip={false}
-                    showXAxis={false}
-                    showYAxis={false}
-                    showLegend={false}
-                    showGridLines={false}
-                    className="h-full w-full"
-                  />
+                <div className="h-24 -mx-2 mb-4">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <AreaChart data={getChartData(item.value)}>
+                      <defs>
+                        <linearGradient id={`color-${item.id}`} x1="0" y1="0" x2="0" y2="1">
+                          <stop offset="5%" stopColor={chartColor} stopOpacity={0.8}/>
+                          <stop offset="95%" stopColor={chartColor} stopOpacity={0}/>
+                        </linearGradient>
+                      </defs>
+                      <XAxis dataKey="time" hide={true} />
+                      <YAxis hide={true} />
+                      <CartesianGrid strokeDasharray="3 3" stroke="rgba(0,0,0,0.1)" />
+                      <Tooltip contentStyle={{ backgroundColor: 'transparent', border: 'none' }} />
+                      <Area type="monotone" dataKey="val" stroke={chartColor} fillOpacity={1} fill={`url(#color-${item.id})`} />
+                    </AreaChart>
+                  </ResponsiveContainer>
                 </div>
                 
-                <div className="mt-4 pt-4 border-t border-slate-100 dark:border-slate-700">
-                  <Text className="text-[10px] uppercase tracking-wider text-slate-400 dark:text-slate-500">
+                <div className="pt-4 border-t border-slate-100 dark:border-slate-700">
+                  <p className="text-[10px] uppercase tracking-wider text-slate-400 dark:text-slate-500">
                     Обновлено: {new Date(item.updated_at).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}
-                  </Text>
+                  </p>
                 </div>
-              </Card>
+              </div>
             </motion.div>
           );
         })}
