@@ -6,28 +6,22 @@
     color-scheme: light;
   }
 
-  html {
+  html, body {
     scrollbar-gutter: stable;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    background-color: #ffffff;
+    color: #1e293b;
+    transition: background-color 300ms ease, color 300ms ease;
   }
 
-  html.dark {
-    color-scheme: dark;
+  html.dark,
+  html.dark body {
+    background-color: #0f172a;
+    color: #f1f5f9;
   }
-
-  body {
-    @apply bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-50 transition-colors duration-300;
-  }
-}
-
-/* Optional CSS variables for custom properties */
-:root {
-  --site-bg: #ffffff;
-  --site-text: #1e293b;
-}
-
-.dark {
-  --site-bg: #0f172a;
-  --site-text: #f1f5f9;
 }
 
 /* СИЛОВОЙ ФИКС ГРАФИКОВ */
