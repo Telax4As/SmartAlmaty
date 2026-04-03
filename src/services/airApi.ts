@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_TOKEN = 'demo'; // Замени на свой с aqicn.org для точности
+const API_TOKEN = 'demo'; 
 const CITY = 'almaty';
 
 export const fetchAirData = async () => {
