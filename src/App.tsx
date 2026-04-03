@@ -24,25 +24,18 @@ export default function App() {
 
   // 2. Управление темой на уровне всей страницы
   useEffect(() => {
-    console.log('isDark changed:', isDark);
     const root = window.document.documentElement;
-    console.log('Root element before:', root.className);
+    const html = document.documentElement;
     
     if (isDark) {
       root.classList.add('dark');
+      html.setAttribute('data-theme', 'dark');
       localStorage.setItem('theme', 'dark');
-      document.body.style.backgroundColor = '#0f172a';
-      document.body.style.color = '#f1f5f9';
     } else {
       root.classList.remove('dark');
+      html.setAttribute('data-theme', 'light');
       localStorage.setItem('theme', 'light');
-      document.body.style.backgroundColor = '#ffffff';
-      document.body.style.color = '#1e293b';
     }
-    
-    console.log('Root element after:', root.className);
-    console.log('Body bg:', document.body.style.backgroundColor);
-    console.log('Body color:', document.body.style.color);
   }, [isDark]);
 
   const loadData = useCallback(async () => {
