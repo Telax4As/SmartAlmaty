@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import { useMemo } from 'react';
 import { Title, Card, Metric, Text, Badge, AreaChart, Button } from '@tremor/react';
 import { RefreshCw, Car, Cloud, Droplets, Shield, Construction, Users } from 'lucide-react';
 import { CityMap } from '../components/CityMap';
@@ -131,7 +131,7 @@ export default function Dashboard({
                   {item.value} {item.unit}
                 </Metric>
                 
-                <div className="h-24 -mx-2 mt-2 overflow-hidden">
+                <div className="h-28 mt-3 -mx-3">
                   <AreaChart
                     data={getChartData(item.value)}
                     index="time"
@@ -142,6 +142,7 @@ export default function Dashboard({
                     showYAxis={false}
                     showLegend={false}
                     showGridLines={false}
+                    className="h-full w-full"
                   />
                 </div>
                 
