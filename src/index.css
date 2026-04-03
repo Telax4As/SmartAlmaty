@@ -1,0 +1,6 @@
+@import "tailwindcss"; /* Это заменяет все старые @tailwind base/components/utilities */
+
+body {
+  margin: 0;
+  background-color: #f8fafc;
+}
