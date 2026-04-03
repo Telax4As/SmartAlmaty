@@ -24,13 +24,18 @@ export default function App() {
 
   // 2. Управление темой на уровне всей страницы
   useEffect(() => {
+    console.log('isDark changed:', isDark);
     const root = window.document.documentElement;
     if (isDark) {
       root.classList.add('dark');
       localStorage.setItem('theme', 'dark');
+      document.body.style.backgroundColor = '#0f172a';
+      document.body.style.color = '#f1f5f9';
     } else {
       root.classList.remove('dark');
       localStorage.setItem('theme', 'light');
+      document.body.style.backgroundColor = '#ffffff';
+      document.body.style.color = '#1e293b';
     }
   }, [isDark]);
 
