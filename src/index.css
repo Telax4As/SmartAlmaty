@@ -1,68 +1,29 @@
 @import "tailwindcss";
 
-@layer base {
-  :root {
-    --color-brand: #6366f1;
-    --bg-primary: #ffffff;
-    --bg-secondary: #f8fafc;
-    --bg-tertiary: #f1f5f9;
-    --text-primary: #1e293b;
-    --text-secondary: #64748b;
-    --border-color: #e2e8f0;
-    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-  }
-
-  html.dark {
-    --bg-primary: #0f172a;
-    --bg-secondary: #1e293b;
-    --bg-tertiary: #334155;
-    --text-primary: #f1f5f9;
-    --text-secondary: #cbd5e1;
-    --border-color: #334155;
-    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
-    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4);
-  }
-
-  html {
-    scrollbar-gutter: stable;
-  }
-
-  body {
-    margin: 0;
-    padding: 0;
-    background-color: var(--bg-primary);
-    color: var(--text-primary);
-    transition: background-color 300ms ease, color 300ms ease;
-  }
-
-  /* Light mode specific improvements */
-  a {
-    color: #4f46e5;
-  }
-
-  /* Card-like elements */
-  [class*="card"],
-  [class*="modal"],
-  [class*="panel"] {
-    background-color: var(--bg-secondary);
-    border-color: var(--border-color);
-  }
-
-  /* Input fields */
-  input, textarea, select {
-    background-color: var(--bg-primary);
-    color: var(--text-primary);
-    border-color: var(--border-color);
-  }
-
-  html.dark input,
-  html.dark textarea,
-  html.dark select {
-    background-color: var(--bg-secondary);
-    border-color: var(--border-color);
-  }
+@theme {
+  --color-brand: #6366f1;
 }
+
+:root {
+  --site-bg: #ffffff;
+  --site-text: #1e293b;
+  --card-bg: #ffffff;
+}
+
+.dark {
+  --site-bg: #0f172a;
+  --site-text: #f1f5f9;
+  --card-bg: #1e293b;
+}
+
+body {
+  margin: 0;
+  background-color: var(--site-bg);
+  color: var(--site-text);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+@custom-variant dark (&:where(.dark, .dark *));
 
 /* СИЛОВОЙ ФИКС ГРАФИКОВ */
 .tremor-AreaChart-line {
@@ -76,6 +37,7 @@
 }
 
 /* ФИКС СПИННЕРА В КНОПКЕ */
+/* Мы делаем его более специфичным, чтобы не ломать саму структуру кнопки */
 .tremor-Button-root[data-loading="true"] svg.animate-spin {
   display: inline-block !important;
   width: 1.25rem !important;
@@ -85,18 +47,20 @@
 }
 
 /* СИЛОВОЙ ФИКС ДЛЯ КАРТЫ (Leaflet) */
+/* Если карта перекрывает клики, мы принудительно опускаем её слой */
 .leaflet-container {
   z-index: 1 !important;
   cursor: default !important;
 }
 
 /* ФИКС КЛИКАБЕЛЬНОСТИ */
+/* Гарантируем, что элементы с onClick всегда имеют приоритет клика */
 [onClick] {
   cursor: pointer !important;
   pointer-events: auto !important;
 }
 
-/* Убираем возможные прозрачные слои */
+/* Убираем возможные прозрачные слои, которые мешают навигации */
 .recharts-wrapper {
-  pointer-events: none !important;
+  pointer-events: none !important; /* Чтобы клик по графику "пролетал" в карточку */
 }

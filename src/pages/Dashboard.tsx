@@ -106,10 +106,6 @@ export default function Dashboard({
       <section id="issues-section" className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {metrics.map((item) => {
           const IconComponent = icons[item.category as keyof typeof icons] || Shield;
-          const tremorColor = 
-            item.status === 'danger' ? 'red' : 
-            item.status === 'warning' ? 'orange' : 
-            'emerald';
           const bgColor = 
             item.status === 'danger' ? 'bg-red-50 dark:bg-red-950/20' :
             item.status === 'warning' ? 'bg-orange-50 dark:bg-orange-950/20' :
