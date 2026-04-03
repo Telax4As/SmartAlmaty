@@ -59,7 +59,7 @@ export default function App() {
 
   if (loading && metrics.length === 0) {
     return (
-      <div className="h-screen w-screen flex flex-col items-center justify-center bg-white dark:bg-slate-900 transition-colors">
+      <div className="h-screen w-screen flex flex-col items-center justify-center transition-colors">
         <div className="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-indigo-600 mb-4"></div>
         <p className="text-slate-500 dark:text-slate-400 animate-pulse">Загрузка SmartAlmaty...</p>
       </div>
@@ -67,7 +67,7 @@ export default function App() {
   }
 
   return (
-    <div className="min-h-screen bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 font-sans transition-colors duration-300">
+    <div className="min-h-screen font-sans transition-colors duration-300">
       <Header isDark={isDark} setIsDark={setIsDark} />
       
       {/* Обертка для контента */}
@@ -92,4 +92,14 @@ export default function App() {
       <AIChatPopup />
     </div>
   );
+}
+
+// Apply theme to body on mount
+if (typeof document !== 'undefined') {
+  const savedTheme = localStorage.getItem('theme');
+  if (savedTheme === 'dark') {
+    document.documentElement.classList.add('dark');
+    document.documentElement.style.backgroundColor = '#0f172a';
+    document.documentElement.style.color = '#f1f5f9';
+  }
 }
