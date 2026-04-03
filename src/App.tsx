@@ -24,18 +24,13 @@ export default function App() {
 
   // 2. Управление темой на уровне всей страницы
   useEffect(() => {
-    const root = window.document.documentElement;
-    const html = document.documentElement;
-    
+    const root = document.documentElement;
     if (isDark) {
       root.classList.add('dark');
-      html.setAttribute('data-theme', 'dark');
-      localStorage.setItem('theme', 'dark');
     } else {
       root.classList.remove('dark');
-      html.setAttribute('data-theme', 'light');
-      localStorage.setItem('theme', 'light');
     }
+    localStorage.setItem('theme', isDark ? 'dark' : 'light');
   }, [isDark]);
 
   const loadData = useCallback(async () => {
