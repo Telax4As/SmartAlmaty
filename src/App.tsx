@@ -25,7 +25,6 @@ export default function App() {
   // 2. Управление темой на уровне всей страницы
   useEffect(() => {
     const root = window.document.documentElement;
-    console.log('Changing theme to:', isDark ? 'dark' : 'light');
     if (isDark) {
       root.classList.add('dark');
       localStorage.setItem('theme', 'dark');
@@ -33,7 +32,6 @@ export default function App() {
       root.classList.remove('dark');
       localStorage.setItem('theme', 'light');
     }
-    console.log('HTML classes:', root.className);
   }, [isDark]);
 
   const loadData = useCallback(async () => {

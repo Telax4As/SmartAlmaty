@@ -1,5 +1,4 @@
 import { Sun, Moon, LogIn } from 'lucide-react';
-import { Button } from '@tremor/react';
 import { animate, motion, AnimatePresence } from 'framer-motion';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 
@@ -130,14 +129,12 @@ export default function Header({ isDark, setIsDark }: HeaderProps) {
             </AnimatePresence>
           </button>
 
-          <Button 
-            variant="secondary" 
-            size="sm" 
-            icon={LogIn}
-            className="flex gap-2 rounded-xl border-slate-200 dark:border-slate-800 dark:bg-slate-800 text-slate-700 dark:text-slate-200 font-bold px-5 py-2 hover:bg-slate-200 dark:hover:bg-slate-700 transition-all active:scale-95"
+          <button 
+            className="flex gap-2 rounded-xl border border-slate-200 dark:border-slate-800 dark:bg-slate-800 text-slate-700 dark:text-slate-200 font-bold px-5 py-2 hover:bg-slate-200 dark:hover:bg-slate-700 transition-all active:scale-95 bg-white"
           >
+            <LogIn size={18} />
             Войти
-          </Button>
+          </button>
         </div>
       </div>
     </header>
