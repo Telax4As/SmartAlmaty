@@ -6,6 +6,10 @@
     color-scheme: light;
   }
 
+  html {
+    scrollbar-gutter: stable;
+  }
+
   html.dark {
     color-scheme: dark;
   }
