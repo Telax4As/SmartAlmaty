@@ -1,30 +1,19 @@
+import axios from 'axios';
+
+const API_TOKEN = 'demo'; // Замени на свой с aqicn.org для точности
+const CITY = 'almaty';
+
 export const fetchAirData = async () => {
   try {
-    const response = await fetch('https://api.air.org.kz/api/city/average');
-    
-    if (!response.ok) {
-      throw new Error(`Ошибка сети: ${response.status}`);
+    const response = await axios.get(`https://api.waqi.info/feed/${CITY}/?token=${API_TOKEN}`);
+    console.log("Air API Response:", response.data);
+    if (response.data.status === 'ok') {
+      return { aqi: response.data.data.aqi };
     }
-
-    const data = await response.json();
-
-    // Логируем для отладки (потом можно убрать)
-    console.log("Данные AirKaz:", data);
-
-    return {
-      pm25: data.pm25 || 0,
-      pm10: data.pm10 || 0,
-      aqi: data.aqi || 0,
-      timestamp: new Date().toISOString()
-    };
+    console.warn("Air API returned non-ok status:", response.data.status);
+    return { aqi: null };
   } catch (error) {
-    console.error("Ошибка при получении данных воздуха:", error);
-    // Возвращаем дефолтные значения, чтобы приложение не упало
-    return {
-      pm25: 0,
-      pm10: 0,
-      aqi: 0,
-      error: true
-    };
+    console.error("Air API Error:", error);
+    return { aqi: null };
   }
 };

@@ -8,7 +8,7 @@ export default function AIChatPopup() {
       {isOpen && (
         <div className="bg-white shadow-2xl rounded-2xl w-80 h-96 mb-4 border border-slate-200 p-4 flex flex-col">
           <div className="flex justify-between items-center border-b pb-2">
-            <span className="font-bold">Чат с ИИ</span>
+            <span className="font-bold text-gray-800">Чат с ИИ</span>
             <X className="cursor-pointer" onClick={() => setIsOpen(false)} />
           </div>
           <div className="flex-1 flex items-center justify-center text-slate-400 text-sm italic">

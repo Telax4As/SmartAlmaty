@@ -11,14 +11,26 @@ export default function App() {
   const [metrics, setMetrics] = useState<CityMetric[]>([]);
   const [loading, setLoading] = useState(true);
   const [syncing, setSyncing] = useState(false);
-  const [isDark, setIsDark] = useState(false); // Тема теперь тут
 
-  // Синхронизация темы с HTML тегом
+  // 1. Инициализация темы
+  const [isDark, setIsDark] = useState(() => {
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme !== null) {
+      return savedTheme === 'dark';
+    }
+    // Если нет сохраненной темы, используем системную предпочтение
+    return window.matchMedia('(prefers-color-scheme: dark)').matches;
+  });
+
+  // 2. Управление темой на уровне всей страницы
   useEffect(() => {
+    const root = window.document.documentElement;
     if (isDark) {
-      document.documentElement.classList.add('dark');
+      root.classList.add('dark');
+      localStorage.setItem('theme', 'dark');
     } else {
-      document.documentElement.classList.remove('dark');
+      root.classList.remove('dark');
+      localStorage.setItem('theme', 'light');
     }
   }, [isDark]);
 
@@ -42,20 +54,21 @@ export default function App() {
     loadData();
   }, [loadData]);
 
-  if (loading) {
+  if (loading && metrics.length === 0) {
     return (
-      <div className="h-screen w-screen flex items-center justify-center bg-slate-50 dark:bg-slate-900">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-indigo-600"></div>
+      <div className="h-screen w-screen flex flex-col items-center justify-center bg-white dark:bg-slate-900 transition-colors">
+        <div className="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-indigo-600 mb-4"></div>
+        <p className="text-slate-500 dark:text-slate-400 animate-pulse">Загрузка SmartAlmaty...</p>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-slate-900 text-slate-900 dark:text-slate-100 font-sans transition-colors duration-300">
-      {/* Передаем стейт темы в Хедер */}
+    <div className="min-h-screen bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 font-sans transition-colors duration-300">
       <Header isDark={isDark} setIsDark={setIsDark} />
       
-      <div className="pt-4">
+      {/* Обертка для контента */}
+      <div className="relative">
         <Routes>
           <Route 
             path="/" 
@@ -65,6 +78,7 @@ export default function App() {
                 onSync={loadData} 
                 isLoading={syncing} 
                 setLoading={setSyncing} 
+                // isDark удалили отсюда, так как Dashboard берет тему из CSS/Tailwind
               />
             } 
           />
