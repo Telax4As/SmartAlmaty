@@ -1,16 +1,22 @@
 import React, { useState } from 'react';
 import { Card, Title, Text, TextInput, Button } from '@tremor/react';
 import { Info, ShieldCheck } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
-const Login = ({ onLogin }: { onLogin: () => void }) => {
+// Добавил "?" после onLogin, теперь он необязательный и билд не упадет
+const Login = ({ onLogin }: { onLogin?: () => void }) => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState(false);
   const [showHint, setShowHint] = useState(false);
+  const navigate = useNavigate();
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
     if (password === 'almaty2026') {
-      onLogin();
+      // Вызываем onLogin только если он был передан
+      if (onLogin) onLogin();
+      // Перенаправляем на главную
+      navigate('/');
     } else {
       setError(true);
     }
@@ -33,9 +39,8 @@ const Login = ({ onLogin }: { onLogin: () => void }) => {
         <form onSubmit={handleLogin} className="space-y-5">
           <div className="relative">
             <div className="flex justify-between items-center mb-2">
-              <Text className="dark:text-slate-300">Пароль доступа</Text>
+              <Text className="dark:text-slate-300 text-sm font-medium">Пароль доступа</Text>
               
-              {/* Кнопка-подсказка i */}
               <div className="relative flex items-center group">
                 <button
                   type="button"
@@ -46,7 +51,7 @@ const Login = ({ onLogin }: { onLogin: () => void }) => {
                   <Info size={16} />
                 </button>
                 {showHint && (
-                  <div className="absolute right-8 bottom-1 bg-slate-800 text-white text-[15px] px-2 py-1 rounded shadow-xl whitespace-nowrap border border-slate-700">
+                  <div className="absolute right-8 bottom-1 bg-slate-800 text-white text-[13px] px-2 py-1 rounded shadow-xl whitespace-nowrap border border-slate-700 z-50">
                     Пароль: almaty2026
                   </div>
                 )}
@@ -63,13 +68,14 @@ const Login = ({ onLogin }: { onLogin: () => void }) => {
               }}
               error={error}
               errorMessage="Неверный пароль доступа"
-              className="dark:bg-slate-800  dark:border-slate-700 px-2 [&_svg]:hidden [&_button_svg]:block [&_button]:-translate-x-2 rounded-[10px] focus:ring-0 focus:ring-offset-0 focus:outline-none border-slate-200 dark:focus:border-brand"
+              // Твои кастомные стили для глазка и скрытия "i"
+              className="dark:bg-slate-800 dark:border-slate-700 px-2 [&_svg]:hidden [&_button_svg]:block [&_button]:-translate-x-2 rounded-[10px] focus:ring-0 focus:ring-offset-0 focus:outline-none border-slate-200 dark:focus:border-brand"
             />
           </div>
 
           <Button 
             type="submit"
-            className="w-full h-11 bg-brand hover:bg-brand/90 border-none rounded-lg font-bold"
+            className="w-full h-11 bg-brand hover:opacity-90 border-none rounded-lg font-bold transition-all active:scale-95"
           >
             Войти в систему
           </Button>
