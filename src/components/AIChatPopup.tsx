@@ -60,7 +60,7 @@ export default function AIChatPopup() {
           <div className="bg-indigo-600 p-4 flex justify-between items-center text-white">
             <span className="font-bold flex items-center gap-2">
               <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
-              Almaty AI
+              ИИ-ассистент Алматы
             </span>
             <X className="cursor-pointer" onClick={() => setIsOpen(false)} />
           </div>

@@ -6,19 +6,18 @@ import Dashboard from './pages/Dashboard';
 import Details from './pages/Details';
 import AIChatPopup from './components/AIChatPopup';
 import type { CityMetric } from './types';
+import Login from './pages/Login';
 
 export default function App() {
   const [metrics, setMetrics] = useState<CityMetric[]>([]);
   const [loading, setLoading] = useState(true);
   const [syncing, setSyncing] = useState(false);
 
-  // 1. Инициализация темы
   const [isDark, setIsDark] = useState(() => {
     const savedTheme = localStorage.getItem('theme');
     return savedTheme === 'dark';
   });
 
-  // 2. Управление темой на уровне всей страницы
   useEffect(() => {
     const root = window.document.documentElement;
     if (isDark) {
@@ -63,7 +62,6 @@ export default function App() {
     <div className="min-h-screen bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 font-sans transition-colors duration-300">
       <Header isDark={isDark} setIsDark={setIsDark} />
       
-      {/* Обертка для контента */}
       <div className="relative">
         <Routes>
           <Route 
@@ -74,11 +72,11 @@ export default function App() {
                 onSync={loadData} 
                 isLoading={syncing} 
                 setLoading={setSyncing} 
-                // isDark удалили отсюда, так как Dashboard берет тему из CSS/Tailwind
               />
             } 
           />
           <Route path="/details/:id" element={<Details />} />
+          <Route path='/login' element={<Login />}></Route>
         </Routes>
       </div>
 
